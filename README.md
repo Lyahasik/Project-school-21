@@ -7,3 +7,5 @@ In addition, writing projects for the school requires compliance with the intern
 
 ## Content
 [`Libft`](/libft) - is the first project from **_School 42_**. In this project, it is required to independently create a library of functions in which the behavior of other functions from different libraries is recreated.
+
+[`get_next_line`](/get_next_line) - function for line-by-line output of information from files.
