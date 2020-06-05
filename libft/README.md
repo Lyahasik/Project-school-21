@@ -10,4 +10,4 @@ The [`libft.en.pdf`](/libft/libft.en.pdf) file contains the technical documentat
  1. open a terminal and go to the ** Realization ** folder
  2. run the **Makefile** using the command `make` (this generates the library as **"libft.a"**)
  3. include **"libft.h"** header in your code and use any libft functions in your project
- 4. compile your code with the library using `gcc -o yourExecutable yourSource.c libft.a`
+ 4. compile your code with the library using `gcc -o yourExecutable yourSource.c path/libft.a`
