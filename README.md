@@ -11,3 +11,5 @@ In addition, writing projects for the school requires compliance with the intern
 [`get_next_line`](/get_next_line) - function for line-by-line output of information from files.
 
 [`fillit`](/fillit) - the program takes Tetrimino from a file and combines them into the smallest possible shape.
+
+[`ft_printf`](/ft_printf) - the first project in the Department of Algorithms and Artificial Intelligence at **_School 42_**. In this project, you need to create an analogue of the Printf function of the Stdio library. 
