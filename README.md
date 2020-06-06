@@ -14,4 +14,4 @@ In addition, writing projects for the school requires compliance with the intern
 
 [`ft_printf`](/ft_printf) - the first project in the Department of Algorithms and Artificial Intelligence at **_School 42_**. In this project, you need to create an analogue of the Printf function of the Stdio library. 
 
-[`fdf`](/fdf) - the first project in the department of graphic programming in **_ school 42 _**. The project teaches the basics of pixel processing and rendering.
+[`fdf`](/fdf) - the first project in the department of graphic programming in **_School 42_**. The project teaches the basics of pixel processing and rendering.
