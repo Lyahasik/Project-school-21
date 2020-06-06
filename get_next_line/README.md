@@ -19,7 +19,7 @@ The [`get_next_line.en.pdf`](/get_next_line/get_next_line.en.pdf) file contains 
  3. run the `make -C path/libft` command to create the **"libft.a"** library
  4. compile your code using the following commands:
 ```
-gcc -I path/libft/includes/ -c get_next_line.c
-gcc -I path/libft/includes/ -c yourSource.c
-gcc -o yourExecutable get_next_line.o yourSource.o -L /libft/
+gcc -I path -c path/get_next_line.c
+gcc -I path -c yourSource.c
+gcc -o yourExecutable get_next_line.o yourSource.o -L path/libft
 ```
