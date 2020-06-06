@@ -1,0 +1,275 @@
+// cl_object_moebius ///////////////////////////////////////////////////////////////////////////////////////////////////
+
+#include "rt_parameters.h"
+
+typedef struct		            s_object_moebius
+{
+    RT_F4   		            position;
+    RT_F 			            radius;
+    RT_F			            half_width;
+}					            t_object_moebius;
+
+// solving cubic equation //////////////////////////////////////////////////////////////////////////////////////////////
+
+// Solution via Kardano formulas http://ateist.spb.ru/mw/kardano.htm
+
+typedef struct					s_moebius_equation
+{
+	RT_F						q;
+	RT_F						r;
+	RT_F						bq;
+	RT_F						br;
+    RT_F						ba;
+    RT_F						bb;
+	RT_F						bq3;
+	RT_F						br2;
+	RT_F						cr2;
+	RT_F						cq3;
+	RT_F						sqrt_bq;
+	RT_F						sgn_br;
+	RT_F						ratio;
+	RT_F						theta;
+	RT_F						norm;
+	RT_F						x0;
+	RT_F						x1;
+	RT_F						x2;
+	int							i;
+}								t_moebius_equation;
+
+static void						ft_swap(RT_F *a, RT_F *b)
+{
+	RT_F						tmp;
+
+	tmp = *b;
+	*b = *a;
+	*a = tmp;
+}
+
+static t_moebius_equation		init_structure(const RT_F *coefficients)
+{
+	t_moebius_equation			eq;
+
+	eq.q = coefficients[2] * coefficients[2] - 3 * coefficients[1];
+	eq.r = 2 * coefficients[2] * coefficients[2] * coefficients[2]
+		- 9 * coefficients[2] * coefficients[1] + 27 * coefficients[0];
+	eq.bq = eq.q / 9;
+	eq.br = eq.r / 54;
+	eq.bq3 = eq.bq * eq.bq * eq.bq;
+	eq.br2 = eq.br * eq.br;
+	eq.cr2 = 729 * eq.r * eq.r;
+	eq.cq3 = 2916 * eq.q * eq.q * eq.q;
+	eq.sgn_br = eq.br >= 0 ? 1 : -1;
+	eq.i = 0;
+	return (eq);
+}
+
+static int						solve_second_case(t_moebius_equation eq, const RT_F *coefficients, RT_F *r)
+{
+	eq.sqrt_bq = RT_SQRT(eq.bq);
+	if (eq.br > 0)
+	{
+		r[0] = -2 * eq.sqrt_bq - coefficients[2] / 3;
+		r[1] = eq.sqrt_bq - coefficients[2] / 3;
+		r[2] = eq.sqrt_bq - coefficients[2] / 3;
+	}
+	else
+	{
+		r[0] = -eq.sqrt_bq - coefficients[2] / 3;
+		r[1] = -eq.sqrt_bq - coefficients[2] / 3;
+		r[2] = 2 * eq.sqrt_bq - coefficients[2] / 3;
+	}
+	return (3);
+}
+
+static int						solve_third_case(t_moebius_equation eq, const RT_F *coefficients, RT_F *r)
+{
+	eq.ratio = eq.sgn_br * RT_SQRT(eq.br2 / eq.bq3);
+	eq.theta = acos(eq.ratio);
+	eq.norm = -2 * RT_SQRT(eq.bq);
+	eq.x0 = eq.norm * RT_COS((RT_F)eq.theta / 3) - coefficients[2] / 3;
+	eq.x1 = eq.norm * RT_COS((RT_F)(eq.theta + 2.0 * RT_PI) / 3) - coefficients[2] / 3;
+	eq.x2 = eq.norm * RT_COS((RT_F)(eq.theta - 2.0 * RT_PI) / 3) - coefficients[2] / 3;
+	if (eq.x0 > eq.x1)
+		ft_swap(&eq.x0, &eq.x1);
+	if (eq.x1 > eq.x2)
+	{
+		ft_swap(&eq.x1, &eq.x2);
+		if (eq.x0 > eq.x1)
+			ft_swap(&eq.x0, &eq.x1);
+	}
+	r[0] = eq.x0;
+	r[1] = eq.x1;
+	r[2] = eq.x2;
+	return (3);
+}
+
+static int						solve_fourth_case(t_moebius_equation eq, const RT_F *coefficients, RT_F *r)
+{
+	eq.ba = -eq.sgn_br * pow((RT_F)(RT_ABS(eq.br) + RT_SQRT(eq.br2 - eq.bq3)), (RT_F)(1.0 / 3.0));
+	eq.bb = eq.bq / eq.ba;
+	r[0] = eq.ba + eq.bb - coefficients[2] / 3;
+	return (1);
+}
+
+static int						solve_moebius_equation(RT_F *coefficients, RT_F *r)
+{
+	t_moebius_equation			coeffs;
+
+	coeffs = init_structure(coefficients);
+	if (coeffs.br == 0 && coeffs.bq == 0)
+	{
+		while (coeffs.i++ < 3)
+			r[coeffs.i] = -coefficients[2] / 3;
+		return (3);
+	}
+	else if (coeffs.cr2 == coeffs.cq3)
+		return (solve_second_case(coeffs, coefficients, r));
+	else if (coeffs.br2 < coeffs.bq3)
+		return (solve_third_case(coeffs, coefficients, r));
+	else
+		return (solve_fourth_case(coeffs, coefficients, r));
+}
+
+// calculating t ///////////////////////////////////////////////////////////////////////////////////////////////////////
+
+typedef struct		            s_moebius_coefficients
+{
+	RT_F 			            radius;
+	RT_F 			            ox;
+	RT_F 			            dx;
+	RT_F 			            oy;
+	RT_F 			            dy;
+	RT_F 			            oz;
+	RT_F 			            dz;
+	RT_F 			            max;
+}					            t_moebius_coefficients;
+
+static int						floating_point_sign(RT_F x)
+{
+    if (x < -RT_EPSILON)
+    	return (-1);
+    return (x > RT_EPSILON);
+}
+
+static int						is_inside_moebius_strip(t_moebius_coefficients *m, RT_F4 hit)
+{
+	RT_F						t;
+	RT_F						s;
+
+    t = atan2(hit.y, hit.x);
+    if (floating_point_sign(RT_SIN(t / 2)) != 0)
+    	s = hit.z / RT_SIN(t / 2);
+    else
+    	s = floating_point_sign(RT_COS(t)) ?
+    		(hit.x / RT_COS(t) - m->radius) / RT_COS(t / 2) :
+    		(hit.y / RT_SIN(t) - m->radius) / RT_COS(t / 2);
+    hit.x -= (m->radius + s * RT_COS(t / 2)) * RT_COS(t);
+    hit.y -= (m->radius + s * RT_COS(t / 2)) * RT_SIN(t);
+    hit.z -= s * RT_SIN(t / 2);
+    if (floating_point_sign(hit.x * hit.x + hit.y * hit.y + hit.z * hit.z))
+    	return (0);
+    return (s >= -m->max && s <= m->max);
+}
+
+static RT_F						choose_equation_root(RT_F *roots, int result, const t_ray *ray, t_moebius_coefficients *m)
+{
+    int							i;
+    RT_F4						hit;
+
+    i = 0;
+    while (i < result)
+    {
+    	if (roots[i] > -1.)
+    	{
+    		hit = ray->direction * roots[i] + ray->origin;
+    		if (is_inside_moebius_strip(m, hit))
+    			return (roots[i]);
+    	}
+    	i++;
+    }
+    return (INFINITY);
+}
+
+static void						init_equation_coefficients(t_moebius_coefficients *m, RT_F *coefficients)
+{
+
+    coefficients[0] = (m->ox * m->ox * m->oy + m->oy * m->oy * m->oy - 2 * m->ox * m->ox * m->oz
+    	- 2 * m->oy * m->oy * m->oz + m->oy * m->oz * m->oz - 2 * m->ox * m->oz * m->radius - m->oy * m->radius * m->radius);
+    coefficients[1] = (m->dy * m->ox * m->ox - 2 * m->dz * m->ox * m->ox + 2 * m->dx * m->ox * m->oy
+    	+ 3 * m->dy * m->oy * m->oy - 2 * m->dz * m->oy * m->oy - 4 * m->dx * m->ox * m->oz - 4 * m->dy * m->oy * m->oz
+    	+ 2 * m->dz * m->oy * m->oz + m->dy * m->oz * m->oz - 2 * m->dz * m->ox * m->radius - 2 * m->dx * m->oz * m->radius -
+    	m->dy * m->radius * m->radius);
+    coefficients[2] = (2 * m->dx * m->dy * m->ox - 4 * m->dx * m->dz * m->ox + m->dx * m->dx * m->oy
+    	+ 3 * m->dy * m->dy * m->oy - 4 * m->dy * m->dz * m->oy + m->dz * m->dz * m->oy - 2 * m->dx * m->dx * m->oz
+    	- 2 * m->dy * m->dy * m->oz + 2 * m->dy * m->dz * m->oz - 2 * m->dx * m->dz * m->radius);
+    coefficients[3] = m->dx * m->dx * m->dy + m->dy * m->dy * m->dy - 2 * m->dx * m->dx * m->dz - 2 * m->dy * m->dy * m->dz + m->dy * m->dz * m->dz;
+    coefficients[0] /= coefficients[3];
+    coefficients[1] /= coefficients[3];
+    coefficients[2] /= coefficients[3];
+}
+
+static void						init_moebius_coefficients(t_moebius_coefficients *moebius, t_object_moebius *data, const t_ray *ray)
+{
+	moebius->radius = data->radius;
+    moebius->ox = ray->origin.x;
+    moebius->dx = ray->direction.x;
+    moebius->oy = ray->origin.y;
+    moebius->dy = ray->direction.y;
+    moebius->oz = ray->origin.z;
+    moebius->dz = ray->direction.z;
+    moebius->max = data->half_width;
+}
+
+static RT_F						calculate_moebius_t(const t_ray *ray, t_object_moebius *data, t_moebius_coefficients *moebius)
+{
+	RT_F						coefficients[4];
+    RT_F						root[3];
+    int							result;
+
+	init_moebius_coefficients(moebius, data, ray);
+    init_equation_coefficients(moebius, coefficients);
+    result = solve_moebius_equation(coefficients, root);
+    return (choose_equation_root(root, result, ray, moebius));
+}
+
+static int     					object_moebius_intersect(global t_object *object, t_intersection *intersection)
+{
+	t_object_moebius			data;
+	t_moebius_coefficients      moebius_coefficients;
+	RT_F						t;
+	t_ray						ray;
+
+#ifndef RT_DOUBLE
+	return (0);
+#endif
+    data = *(global t_object_moebius *)object->data;
+    ray = intersection->ray;
+	ray.origin -= data.position;
+	t = calculate_moebius_t(&ray, &data, &moebius_coefficients);
+	if (t == RT_INFINITY || t >= intersection->ray.t || t <= RT_EPSILON)
+		return (0);
+	intersection->ray.t = t;
+	intersection->object_id = object->id;
+	return (1);
+}
+
+// calculating normal //////////////////////////////////////////////////////////////////////////////////////////////////
+
+static RT_F4					object_moebius_normal(global t_object *object, const t_intersection *intersection)
+{
+	t_object_moebius			data;
+	t_moebius_coefficients      moebius_coefficients;
+	RT_F4						normal;
+	RT_F4						vector_x;
+
+	data = *(global t_object_moebius *)object->data;
+	vector_x = intersection->hit;
+	init_moebius_coefficients(&moebius_coefficients, &data, &intersection->ray);
+
+	normal.x = -2 * data.radius * vector_x.z + 2 * vector_x.x * vector_x.y - 4 * vector_x.x * vector_x.z;
+	normal.y = -data.radius * data.radius + vector_x.x * vector_x.x + 3 * vector_x.y * vector_x.y
+		- 4 * vector_x.y * vector_x.z + vector_x.z * vector_x.z;
+    normal.z = -2 * data.radius * vector_x.x - 2 * vector_x.x * vector_x.x - 2 * vector_x.y
+    	* vector_x.y + 2 * vector_x.y * vector_x.z;
+	return (normalize(normal));
+}

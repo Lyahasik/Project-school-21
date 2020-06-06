@@ -1,0 +1,38 @@
+// cl_object ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#include "rt_parameters.h"
+
+typedef enum		e_object_type
+{
+	object_type_light_ambient,
+	object_type_light_point,
+	object_type_light_direct,
+	object_type_sphere,
+	object_type_plane,
+	object_type_cone,
+	object_type_cylinder,
+	object_type_box,
+	object_type_paraboloid,
+	object_type_moebius,
+	object_type_limited,
+	object_type_torus,
+	object_type_mandelbulb,
+	object_type_julia,
+	object_type_perforated_cube,
+	object_type_explosion,
+	object_type_csg,
+	object_type_end
+}					t_object_type;
+
+typedef struct		s_object
+{
+	char 			name[RT_NAME_SIZE];
+	int				id;
+	t_object_type	type;
+	int 			texture_id;
+	t_material		material;
+	char			data[RT_OBJECT_CAPACITY];
+	t_rt_bool 		is_visible;
+	t_rt_bool 		is_selected;
+}					t_object;
+

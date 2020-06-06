@@ -1,0 +1,44 @@
+[
+  	{
+		"type" : "settings",
+		"rm mod" : true,
+		"rm limit" : 250,
+		"rm part" : 1,
+		"pt depth" : 2,
+		"pt limit" : 25,
+		"background" : "none",
+		"illumination mod" : true,
+		"illumination value" : 0.6
+  	},
+  	{
+		"type" : "camera",
+		"position" : [10, 100, 140],
+		"rotation" : [0.6, 0.15, 0]
+  	},
+
+		{
+		"type" : "sphere",
+		"name" : "Light",
+		"position" : [-25, 32, 36],
+		"radius" : 3,
+		"material" : "light"
+  	},
+
+  	{
+		"type" : "torus",
+		"name" : "Red Torus",
+		"position" : [0, -10, 0],
+		"width" : 5,
+		"radius" : 15,
+		"material" : "red"
+  	},
+
+	{
+		"type" : "torus",
+		"name" : "Blue Torus",
+		"position" : [0, 10, 0],
+		"width" : 5,
+		"radius" : 10,
+		"material" : "blue"
+	}
+]

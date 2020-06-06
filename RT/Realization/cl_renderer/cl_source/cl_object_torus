@@ -1,0 +1,22 @@
+// cl_object_torus /////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#include "rt_parameters.h"
+
+typedef struct 		s_object_torus
+{
+	RT_F4   		position;
+	RT_F 			t_0;
+	RT_F          	t_1;
+}					t_object_torus;
+
+static RT_F 		object_torus_sdf(global t_object *object, t_intersection *intersection)
+{
+	t_object_torus	data;
+	RT_F2			q;
+	RT_F4			point;
+
+	data = *(global t_object_torus *)object->data;
+	point = data.position - intersection->hit;
+	q = (RT_F2)(length(point.xz) - data.t_0, point.y);
+	return (length(q) - data.t_1);
+}

@@ -1,0 +1,64 @@
+// cl_object_x /////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#include "rt_control.h"
+#include "rt_parameters.h"
+
+static int			object_is_pair(global t_object *object)
+{
+	return (object->type == object_type_limited || object->type == object_type_csg);
+}
+
+static int			object_intersect(global t_object *object, t_intersection *intersection)
+{
+	if (object->is_visible == rt_false)
+		return (0);
+	if (object->type == object_type_sphere)
+		return (object_sphere_intersect(object, intersection));
+	else if (object->type == object_type_plane)
+		return (object_plane_intersect(object, intersection));
+	else if (object->type == object_type_cone)
+		return (object_cone_intersect(object, intersection));
+	else if (object->type == object_type_cylinder)
+		return (object_cylinder_intersect(object, intersection));
+	else if (object->type == object_type_box)
+		return (object_box_intersect(object, intersection));
+	else if (object->type == object_type_paraboloid)
+		return (object_paraboloid_intersect(object, intersection));
+	else if (object->type == object_type_moebius)
+		return (object_moebius_intersect(object, intersection));
+	else if (object->type == object_type_limited)
+		return (object_limited_intersect(object, intersection));
+	return (0);
+}
+
+static RT_F			object_sdf(global t_object *object, t_intersection *intersection)
+{
+	if (object->is_visible == rt_false)
+		return (RT_INFINITY);
+	if (object->type == object_type_sphere)
+		return (object_sphere_sdf(object, intersection));
+	else if (object->type == object_type_plane)
+		return (object_plane_sdf(object, intersection));
+	else if (object->type == object_type_julia)
+		return (object_julia_sdf(object, intersection));
+	else if (object->type == object_type_mandelbulb)
+		return (object_mandelbulb_sdf(object, intersection));
+	else if (object->type == object_type_torus)
+		return (object_torus_sdf(object, intersection));
+	else if (object->type == object_type_box)
+		return (object_box_sdf(object, intersection));
+	else if (object->type == object_type_perforated_cube)
+		return (object_perforated_cube_sdf(object, intersection));
+	else if (object->type == object_type_explosion)
+		return (object_explosion_sdf(object, intersection));
+	else if (object->type == object_type_csg)
+		return (object_csg_sdf(object, intersection));
+	return (RT_INFINITY);
+}
+
+static RT_F			object_center_shift(global t_object *object)
+{
+	if (object->type == object_type_sphere)
+		return (object_sphere_center_shift(object));
+	return (0);
+}

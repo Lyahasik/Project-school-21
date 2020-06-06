@@ -1,0 +1,40 @@
+[
+	{
+		"type" : "settings",
+		"rm mod" : true,
+		"rm limit" : 255,
+		"rm part" : 0.7,
+		"pt depth" : 1,
+		"pt limit" : 250,
+		"background"  : "none"
+	},
+	{
+		"type": "camera",
+		"position": [0, 0, 10]
+	},
+	{
+		"type": "sphere",
+		"name": "Light",
+		"position": [0, 10, 20],
+		"radius": 3,
+		"material": "light"
+	},
+	{
+		"type": "light point",
+		"name": "Light point",
+		"position": [0, 10, 30]
+	},
+	{
+		"type": "light ambient",
+		"name": "Light ambient",
+		"position": [0, 10, 0],
+		"radius": 3
+	},
+	{
+		"type": "mandelbulb",
+		"name": "Mandelbulb",
+		"position": [0, 0, 0],
+		"iterations": 5,
+		"power": 8
+	}
+]

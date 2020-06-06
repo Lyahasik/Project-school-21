@@ -1,0 +1,24 @@
+[
+	{
+		"type" : "settings",
+		"rm mod" : true,
+		"rm limit" : 512,
+		"rm part" : 0.7,
+		"pt depth" : 1,
+		"pt limit" : 30,
+		"background" : "none"
+	},
+
+	{
+		"type" : "camera",
+		"position" : [0, 0, 20]
+	},
+
+	{
+		"type" : "explosion",
+		"name" : "Explosion",
+		"position" : [0, 0, 0],
+		"radius" : 3,
+		"noise amplitude" : 3
+	}
+]

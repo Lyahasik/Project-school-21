@@ -1,0 +1,34 @@
+// cl_object_julia /////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#include "rt_parameters.h"
+
+typedef struct		s_object_julia
+{
+	RT_F4			position;
+	int				iterations;
+	RT_F4			value;
+}					t_object_julia;
+
+static RT_F			object_julia_sdf(global t_object *object, t_intersection *intersection)
+{
+	t_object_julia	data;
+	RT_F			md;
+	RT_F			mz;
+	RT_F4			point;
+
+	data = *(global t_object_julia *)object->data;
+	md = 1.;
+	point = data.position - intersection->hit;
+	mz = dot(point, point);
+
+	for (int iter = 0; iter < data.iterations; iter++)
+	{
+		md *= 4. * mz;
+		point = f4_square(point);
+		point += data.value;
+		mz = dot(point, point);
+		if (mz > 4.)
+			break ;
+	}
+	return (.25 * RT_SQRT(mz / md) * log(mz));
+}

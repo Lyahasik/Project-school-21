@@ -1,0 +1,65 @@
+// cl_object_plane /////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#include "rt_parameters.h"
+
+typedef enum 			e_rt_limit
+{
+	rt_limit_no,
+	rt_limit_yes
+}						t_rt_limit;
+
+typedef struct			s_object_plane
+{
+	RT_F4				position;
+	RT_F4				normal;
+	t_rt_limit	is_limiting;
+}						t_object_plane;
+
+static int				object_plane_intersect(global t_object *object, t_intersection *intersection)
+{
+	t_object_plane		data;
+	RT_F4				temp[2];
+	RT_F				value[3];
+
+	data = *(global t_object_plane *)object->data;
+	if (!(value[0] = dot(intersection->ray.direction, data.normal)))
+		return (0);
+	temp[0] = data.position - intersection->ray.origin;
+	value[1] = dot(temp[0], data.normal) / value[0];
+	if (value[1] <= RT_EPSILON || value[1] >= intersection->ray.t)
+		return (0);
+	intersection->ray.t = value[1];
+	intersection->object_id = object->id;
+	return (1);
+}
+
+static RT_F4			object_plane_normal(global t_object *object, t_intersection *intersection)
+{
+	return (((global t_object_plane *)object->data)->normal);
+}
+
+static void				object_plane_intersect_t(t_object_plane *plane, t_intersection *intersection, RT_F *t)
+{
+	RT_F4				temp[2];
+	RT_F				value[3];
+
+	if (!(value[0] = dot(intersection->ray.direction, plane->normal)))
+	{
+		*t = RT_INFINITY;
+		return ;
+	}
+	temp[0] = plane->position - intersection->ray.origin;
+	value[1] = dot(temp[0], plane->normal) / value[0];
+	if (value[1] <= RT_EPSILON || value[1] >= intersection->ray.t)
+		*t = RT_INFINITY;
+	else
+		*t = value[1];
+}
+
+static RT_F 			object_plane_sdf(global t_object *object, t_intersection *intersection)
+{
+	t_object_plane		data;
+
+    data = *(global t_object_plane *)object->data;
+	return (dot(data.normal, intersection->hit - data.position));
+}
