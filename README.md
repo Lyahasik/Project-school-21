@@ -17,3 +17,5 @@ In addition, writing projects for the school requires compliance with the intern
 [`fdf`](/fdf) - the first project in the department of graphic programming in **_School 42_**. The project teaches the basics of pixel processing and rendering.
 
 [`fractal`](/fractal) - the project aimed at the study of fractals, mathematical sets that demonstrate the principle of self-similarity.
+
+[`RT`](/RT) is one of the latest projects at the Faculty of Graphic Programming at School 42. To complete the project, we need to write a graphical editor for ray tracing in real time.
