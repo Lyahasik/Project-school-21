@@ -18,4 +18,4 @@ In addition, writing projects for the school requires compliance with the intern
 
 [`fractal`](/fractal) - the project aimed at the study of fractals, mathematical sets that demonstrate the principle of self-similarity.
 
-[`RT`](/RT) is one of the latest projects at the Faculty of Graphic Programming at School 42. To complete the project, we need to write a graphical editor for ray tracing in real time.
+[`RT`](/RT) is one of the latest projects at the department of graphic grogramming at **_School 42_**. To complete the project, we need to write a graphical editor for ray tracing in real time.
