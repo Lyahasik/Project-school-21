@@ -57,5 +57,5 @@ Now you can run executable :
 * [6 Types of Noise Textures in Godot, and how to make them!](https://www.youtube.com/watch?v=ybbJz6C9YYA) - Simple implementations of some noise algorithms 
 
 ## Authors
-[Vladimir Belchenko](https://github.com/belchenkovova "belchenkovova") </br>
+[Vladimir Belchenko](https://github.com/bshanae "bshanae") </br>
 [Alexey Prigorovsky](https://github.com/Lyahasik "Lyahasik")
