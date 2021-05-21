@@ -1,4 +1,4 @@
-# Project-school-21
+# Projects-school-21
 Training project portfolio
 
 A technical document is attached to each project, which states in detail what should be implemented and what is allowed for implementation.
