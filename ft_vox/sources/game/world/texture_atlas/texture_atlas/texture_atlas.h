@@ -1,0 +1,45 @@
+#pragma once
+
+#include "application/common/imports/opengl.h"
+#include "application/common/templates/singleton/singleton.h"
+#include "application/common/imports/glm.h"
+#include "application/common/imports/std.h"
+
+#include "engine/main/rendering/texture/texture/texture.h"
+
+#include "game/world/block/block/block.h"
+#include "game/world/texture_atlas/texture_coordinates/texture_coordinates.h"
+
+namespace							game
+{
+	enum class						block_type;
+	class							chunk_renderer;
+	class							texture_atlas;
+}
+
+class								game::texture_atlas : public singleton<texture_atlas>
+{
+public :
+									texture_atlas();
+									~texture_atlas() override = default;
+
+	static vec2 					get_texture_size();
+	static texture_coordinates		&get_coordinates(block_type type);
+
+	static void 					use(bool state);
+
+private :
+
+	using 							map_type = map<block_type, texture_coordinates>;
+
+	static inline constexpr int		texture_size_in_pixels[2] = {48, 48};
+
+	shared_ptr<engine::texture>		texture;
+	ivec2 							number_of_textures = ivec2(0);
+	map_type						map;
+	mutable shared_mutex			mutex;
+
+	bool							contains(block_type type) const;
+	game::texture_coordinates		&get(block_type type);
+	void 							add(block_type type);
+};
