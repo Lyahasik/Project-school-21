@@ -14,8 +14,20 @@ In addition, writing projects for the school requires compliance with the intern
 
 [`ft_printf`](/ft_printf) - the first project in the Department of Algorithms and Artificial Intelligence at **_School 42_**. In this project, you need to create an analogue of the Printf function of the Stdio library. 
 
+[`filler`](/filler) - mini-game in which you have to defeat a bot by capturing most of the territory.
+
+[`push_swap`](/push_swap) - it is required to sort the list of numbers, implementing limited functionality to solve the problem. Implement the ability to check the correctness of a step-by-step solution.
+
+[`lem_in`](/lem_in) - find in the graph of rooms the paths along which the ants will go from A to B in the minimum number of steps.
+
+[`corewar`](/corewar) - implementation of the corewar minigame using a pseudo assembler.
+
 [`fdf`](/fdf) - the first project in the department of graphic programming in **_School 42_**. The project teaches the basics of pixel processing and rendering.
 
 [`fractal`](/fractal) - the project aimed at the study of fractals, mathematical sets that demonstrate the principle of self-similarity.
 
-[`RT`](/RT) is one of the latest projects at the department of graphic grogramming at **_School 42_**. To complete the project, we need to write a graphical editor for ray tracing in real time.
+[`RT`](/RT) - you need to write a graphics editor for real-time ray tracing.
+
+[`scop`](/scop) - write the simplest implementation of reading an object file, displaying an object using OpenGL.
+
+[`ft_vox`](/ft_vox) - implement the simplest creation of the minecraft world and navigate through it.
