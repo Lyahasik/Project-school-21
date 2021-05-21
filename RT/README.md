@@ -98,6 +98,6 @@ $> brew install glade
 </p>
 
 ## Authors
-[Vladimir Belchenko](https://github.com/belchenkovova "belchenkovova") </br>
+[Vladimir Belchenko](https://github.com/bshanae "bshanae") </br>
 [Elena Orlova](https://github.com/elenaorlova "elenaorlova") </br>
 [Alexey Prigorovsky](https://github.com/Lyahasik "Lyahasik")
