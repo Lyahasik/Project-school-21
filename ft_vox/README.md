@@ -3,7 +3,9 @@
 # ft_vox
 
 This project is about creating a minecraft engine in C++ and OpenGL.
-Main goal is efficiency - chunk generation is done with asynchronous tasks system. 
+Main goal is efficiency - chunk generation is done with asynchronous tasks system.
+
+The [`ft_vox.en.pdf`](/ft_vox/ft_vox.en.pdf) file contains the technical documentation of the project.
 
 ## Features
 
