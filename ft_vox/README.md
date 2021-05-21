@@ -55,3 +55,7 @@ Now you can run executable :
 * [MUTEX: Write Your First Concurrent Code](https://medium.com/swlh/c-mutex-write-your-first-concurrent-code-69ac8b332288) - C++ multithreading
 * [Generating terrain in Cuberite](http://mc-server.xoft.cz/docs/Generator.html) - Insights for terrain generation
 * [6 Types of Noise Textures in Godot, and how to make them!](https://www.youtube.com/watch?v=ybbJz6C9YYA) - Simple implementations of some noise algorithms 
+
+## Authors
+[Vladimir Belchenko](https://github.com/belchenkovova "belchenkovova") </br>
+[Alexey Prigorovsky](https://github.com/Lyahasik "Lyahasik")
