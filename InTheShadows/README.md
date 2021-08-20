@@ -3,7 +3,7 @@
 The project is a small analogue of https://www.shadowmatic.com/ PC version.
 It is implemented in the Unity development environment.
 
-<img src="https://ibb.co/MZJmwCn">
+<img src="https://files.fm/thumb_show.php?i=njjkzdsdt">
 
 ## Controls
 
