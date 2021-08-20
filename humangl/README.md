@@ -1,6 +1,12 @@
 # humangl
 
-A small OpenGL project for learning animation.
+The project allows you to load 3D models in various formats, display them on the screen and play the animation.
+Implemented using OpenGL, Assimp. Allows you to change the size of the mesh in real time.
+
+<img src="https://i.yapx.ru/N1Q6H.gif">
+
+Models are stored in Resources/Models.
+To change the model, replace the file name on line 20 in Resources/Scenes/Main.yaml.
 
 ## Installation
 
@@ -15,7 +21,7 @@ You need CMake. Then you do :
 
 * w/a/s/d/space - movement
 * left mouse button dragging - camera rotation
-* left mouse click - select mesh
+* command + left/right arrow - select mesh
 * +/- resize mesh (when a mesh is selected)
 
 ## Resources
