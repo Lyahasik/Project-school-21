@@ -3,7 +3,7 @@
 The project allows you to load 3D models in various formats, display them on the screen and play the animation.
 Implemented using OpenGL, Assimp. Allows you to change the size of the mesh in real time.
 
-<img src="https://i.yapx.ru/N1Q6H.mp4">
+<img src="//https://i.yapx.ru/N1Q6H.gif">
 
 Models are stored in Resources/Models.
 To change the model, replace the file name on line 20 in Resources/Scenes/Main.yaml.
