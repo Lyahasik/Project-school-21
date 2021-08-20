@@ -1,4 +1,4 @@
 mkdir -p Build
 cd Build || exit
 cmake ..
-make
+make -j 6
