@@ -7,8 +7,6 @@ In addition, writing projects for the school requires compliance with the intern
 
 ## Content
 
-[`InTheShadows`](/InTheShadows) - develop a prototype analog of the game https://www.shadowmatic.com/ in the Unity development environment.
-
 [`humangl`](/humangl) - importing and running an animated model using OpenGL/Assimp.
 
 [`ft_vox`](/ft_vox) - implement the simplest creation of the minecraft world and navigate through it.
